@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="3" failures="0" time="1.272">
+  <testsuite name="Global State test" errors="0" failures="0" skipped="0" timestamp="2020-08-04T18:50:48" time="0.855" tests="3">
+    <testcase classname="Global State test should increment count state" name="Global State test should increment count state" time="0.028">
+    </testcase>
+    <testcase classname="Global State test should decrement count state" name="Global State test should decrement count state" time="0.012">
+    </testcase>
+    <testcase classname="Global State test should reset count state" name="Global State test should reset count state" time="0.005">
+    </testcase>
+  </testsuite>
+</testsuites>
