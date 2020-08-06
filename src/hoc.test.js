@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
-import { Provider, useGlobalState } from "./hooks";
+import { Provider, connect } from "./hooks";
 
 const initialState = { count: 1 };
 
@@ -26,36 +26,40 @@ const Button = ({ action, label }) => {
   );
 };
 
-const HookCounter = () => {
-  const [state, dispatch] = useGlobalState();
+const actions = {
+  increment: () => (dispatch) => dispatch({ type: "increment" }),
+  decrement: () => (dispatch) => dispatch({ type: "decrement" }),
+  reset: () => (dispatch) => dispatch({ type: "reset" }),
+};
+
+const Counter = ({ count, increment, decrement, reset }) => {
   return (
     <>
-      <span data-testid="count">{state.count}</span>
-      <Button
-        label="increment"
-        action={() => dispatch({ type: "increment" })}
-      />
-      <Button
-        label="decrement"
-        action={() => dispatch({ type: "decrement" })}
-      />
-      <Button label="reset" action={() => dispatch({ type: "reset" })} />
+      <span data-testid="count">{count}</span>
+      <Button label="increment" action={() => increment()} />
+      <Button label="decrement" action={() => decrement()} />
+      <Button label="reset" action={() => reset()} />
     </>
   );
 };
 
-const HookApp = () => {
-  return (
-    <Provider reducer={reducer} initialState={initialState}>
-      <HookCounter />
-    </Provider>
-  );
+const mapStateToProps = (state) => {
+  return {
+    count: state.count,
+  };
 };
 
+const ConnectedCounter = connect(mapStateToProps, actions)(Counter);
 
-describe("Hook State test", () => {
+const ConnectedApp = () => (
+  <Provider reducer={reducer} initialState={initialState}>
+    <ConnectedCounter />
+  </Provider>
+);
+
+describe("Connected State Test", () => {
   it("should increment count state", () => {
-    const { getByTestId } = render(<HookApp />);
+    const { getByTestId } = render(<ConnectedApp />);
     let count = getByTestId("count");
     const incrementButton = getByTestId("increment");
     expect(count.innerHTML).toContain(1);
@@ -63,7 +67,7 @@ describe("Hook State test", () => {
     expect(count.innerHTML).toContain(2);
   });
   it("should decrement count state", () => {
-    const { getByTestId } = render(<HookApp />);
+    const { getByTestId } = render(<ConnectedApp />);
     let count = getByTestId("count");
     const decrementButton = getByTestId("decrement");
     expect(count.innerHTML).toContain(1);
@@ -71,7 +75,7 @@ describe("Hook State test", () => {
     expect(count.innerHTML).toContain(0);
   });
   it("should reset count state", () => {
-    const { getByTestId } = render(<HookApp />);
+    const { getByTestId } = render(<ConnectedApp />);
     let count = getByTestId("count");
     expect(count.innerHTML).toContain(1);
     const decrementButton = getByTestId("decrement");

@@ -1,7 +1,7 @@
 # React HGS
 Global state redux-like implementation with React Hooks only
 
-HGS stands for Hooks Global State, so you can use a global state made with React Hooks and nothing else, it comes with a HOC like Reduc connect function, where you can pass the mapStateToProps and your actions/action creators.
+HGS stands for Hooks Global State, so you can use a global state made with React Hooks and nothing else, it comes with a HOC like Redux connect function, where you can pass the mapStateToProps and your actions/action creators.
 
 ## Installing
 Using npm:
@@ -35,17 +35,51 @@ const App = () => {
   )
 }
 ```
-### Custom Hook:
+### Hooks:
+
+#### useGlobalState:
+
 Once it's done, you can use *useGlobalState* within you application, receiving state and dispatch like:
 ```
 const [state, dispatch] = useGlobalState()
 ```
-### HOC (*experimental*):
+#### useSelector:
 
-You can also use an Redux Structure as well, passing mapStateToProps and your actions that need dispatch injection:
+Also you can use *useSelector* to retrieve only the state ou want from the store
 
 ```
-import {connect} from 'react-hgs'
+const user = useSelector(state => state.user)
+```
+
+#### useStore:
+
+*useStore* returns what it says, the entire store
+
+```
+const { user } = useStore()
+```
+
+#### useActions:
+
+This one is special for who wants to reuse the actionCreators that already exists, use t instead of connect if you want to
+
+```
+import actionCreators from '../actions/user'
+
+const actions = useActions(actionCreators)
+
+// Instead of
+
+const ConnectedComponent = connect(() => ({}), actionCreators)(...)
+```
+
+
+### HOC:
+
+You can also use an Redux Structure as well, passing mapStateToProps and either mapDispatchToProps or plain actions that need dispatch injection:
+
+```
+import { connect } from 'react-hgs'
 
 const mapStateToProps = (state, onwProps?) => ({
  user: state.user,
@@ -56,9 +90,6 @@ const InjectedComponent = connect(mapStateToProps, actions)(({user, auth, ...act
   ...
 })
 ```
-
-#### *Atention*
-this feature is currently unstable, so I recommend you to use only the *useGlobalState* hook for now, I'll work for a stable release of this feature
 
 ## Contibuting:
 
