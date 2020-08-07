@@ -11,7 +11,7 @@ module.exports = {
     '^.+.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2|svg)$':
       '<rootDir>/node_modules/jest-transform-stub'
   },
-  reporters: ['default', ['jest-junit', { outputDirectory: 'test-reports' }]],
+  reporters: ['default'],
   transformIgnorePatterns: ['<rootDir>/node_modules/*'],
   setupFilesAfterEnv: ['./jest.setup.js'],
 }

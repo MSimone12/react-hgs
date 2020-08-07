@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
-import { Provider, connect } from "./hooks";
+import { Provider, connect } from "./";
 
 const initialState = { count: 1 };
 

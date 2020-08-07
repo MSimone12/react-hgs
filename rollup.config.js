@@ -6,7 +6,7 @@ export default {
     file: "dist/index.js",
     format: "cjs",
   },
-  external: ["react", "lodash.get"],
+  external: ["react", "react-dom"],
   plugins: [
     resolve(),
     babel({
