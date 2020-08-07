@@ -28,6 +28,6 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
       - run: yarn
-      - run: npm publish --tag=$(git describe --tag)
+      - run: yarn publish --new-version $(git describe --tag)
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
