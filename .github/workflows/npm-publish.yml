@@ -27,8 +27,11 @@ jobs:
         with:
           node-version: '12.x'
           registry-url: https://registry.npmjs.org/
+      - run: git config --global user.email $NPM_EMAIL && git config --global user.name $NPM_USER
       - run: yarn
       # - run: echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
-      - run: yarn publish --no-commit-hooks --new-version $(git describe --tag)
+      - run: yarn publish --new-version $(git describe --tag)
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NPM_EMAIL: 'matheusosimone@hotmail.com'
+          NPM_USER: 'Matheus Simone'
