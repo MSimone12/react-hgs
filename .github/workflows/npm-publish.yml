@@ -29,7 +29,6 @@ jobs:
           node-version: 12
           auth_token: ${{secrets.NPM_TOKEN}}
           registry-url: https://registry.npmjs.org/
-      - run: yarn
-      - run: yarn publish --new-version $(git describe --tag)
+          cmd: publish --new-version $(git describe --tag)
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
