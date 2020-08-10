@@ -1,3 +1,4 @@
+![NPM](https://img.shields.io/npm/l/react-hgs) ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/MSimone12/react-hgs/test/master) ![npm bundle size](https://img.shields.io/bundlephobia/min/react-hgs) ![npm](https://img.shields.io/npm/v/react-hgs)
 # React HGS
 Global state redux-like implementation with React Hooks only
 
@@ -35,6 +36,17 @@ const App = () => {
   )
 }
 ```
+
+You can also use combineReducers function to use more reducers per Provider:
+
+```
+import {combineReducers} from 'react-hgs'
+
+<Provider reducer={combineReducers({user, auth})}>
+...
+</Provider>
+```
+
 ### Hooks:
 
 #### useGlobalState:
@@ -94,3 +106,5 @@ const InjectedComponent = connect(mapStateToProps, actions)(({user, auth, ...act
 ## Contibuting:
 
 Feel free to open a PR for this project!!
+
+[Contribute](https://github.com/MSimone12/react-hgs)

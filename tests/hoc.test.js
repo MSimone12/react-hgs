@@ -1,30 +1,9 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
-import { Provider, connect } from "./";
+import { Provider, connect } from "../src";
+import { reducer, Button } from "./common";
 
 const initialState = { count: 1 };
-
-const reducer = (state, action) => {
-  const { count } = state;
-  switch (action.type) {
-    case "increment":
-      return { count: count + 1 };
-    case "decrement":
-      return { count: count - 1 };
-    case "reset":
-      return initialState;
-    default:
-      return initialState;
-  }
-};
-
-const Button = ({ action, label }) => {
-  return (
-    <button data-testid={label} onClick={action}>
-      test
-    </button>
-  );
-};
 
 const actions = {
   increment: () => (dispatch) => dispatch({ type: "increment" }),
@@ -52,7 +31,7 @@ const mapStateToProps = (state) => {
 const ConnectedCounter = connect(mapStateToProps, actions)(Counter);
 
 const ConnectedApp = () => (
-  <Provider reducer={reducer} initialState={initialState}>
+  <Provider reducer={reducer(initialState)} initialState={initialState}>
     <ConnectedCounter />
   </Provider>
 );

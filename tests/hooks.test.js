@@ -1,30 +1,9 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
-import { Provider, useGlobalState } from "./";
+import { Provider, useGlobalState } from "../src";
+import { reducer, Button } from "./common";
 
 const initialState = { count: 1 };
-
-const reducer = (state, action) => {
-  const { count } = state;
-  switch (action.type) {
-    case "increment":
-      return { count: count + 1 };
-    case "decrement":
-      return { count: count - 1 };
-    case "reset":
-      return initialState;
-    default:
-      return initialState;
-  }
-};
-
-const Button = ({ action, label }) => {
-  return (
-    <button data-testid={label} onClick={action}>
-      test
-    </button>
-  );
-};
 
 const HookCounter = () => {
   const [state, dispatch] = useGlobalState();
@@ -46,7 +25,7 @@ const HookCounter = () => {
 
 const HookApp = () => {
   return (
-    <Provider reducer={reducer} initialState={initialState}>
+    <Provider reducer={reducer(initialState)} initialState={initialState}>
       <HookCounter />
     </Provider>
   );

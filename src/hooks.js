@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from "react";
-import { bindActionCreators, useMiddleware } from "./utils";
+import { bindActionCreators, useMiddleware, combineReducers } from "./utils";
 import StateContext from "./context";
 
 export const Provider = ({ initialState = {}, reducer, children }) => (
@@ -34,3 +34,5 @@ export const useSelector = (functionToApply) => {
 
   return functionToApply(state);
 };
+
+export {combineReducers}
