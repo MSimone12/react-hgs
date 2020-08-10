@@ -1,13 +1,21 @@
 import { useReducer } from "react";
 
+const getPersistKey = reducer => `_persist_${reducer}`
+
 export const getDispatchedActions = (dispatch, props, actions) => {
   if (typeof actions === "function") return actions(dispatch, props);
   return bindActionCreators(actions, dispatch);
 };
 
-export const useMiddleware = (reducer, initialState) => {
+export const useMiddleware = (reducer, initialState, persistentReducers) => {
+  if(!Array.isArray(persistentReducers)) throw Error('persistentReducers must be an Array')
   const [state, dispatch] = useReducer(reducer, initialState);
-  return [state, middleware(state, dispatch)];
+  const persistedState = {}
+  persistentReducers.forEach(reducer => {
+    const reducerState = localStorage.getItem(getPersistKey(reducer))
+    persistedState[reducer] = reducerState
+  })
+  return [{...state, ...persistedState}, middleware(state, dispatch, persistentReducers)];
 };
 
 export const combineReducers = (reducers) => (state, action) => {
@@ -24,7 +32,10 @@ const mergeReducers = (reducers, state, action) => {
   return combinedReducers;
 };
 
-const middleware = (state, dispatch) => (action) => {
+const middleware = (state, dispatch, reducersToPersist) => (action) => {
+  reducersToPersist.forEach(reducer => {
+    localStorage.setItem(getPersistKey(reducer), JSON.stringify({[reducer]: state[reducer]}))
+  })
   if (typeof action === "function") {
     return action(dispatch, () => state);
   }
