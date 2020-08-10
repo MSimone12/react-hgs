@@ -15,7 +15,7 @@ export const useMiddleware = (reducer, initialState, persistentReducers) => {
     const reducerState = localStorage.getItem(getPersistKey(reducer))
     persistedState[reducer] = reducerState
   })
-  const newState = {...state, ...persistedState} 
+  const newState = {...persistedState, ...state} 
   return [newState, middleware(newState, dispatch, persistentReducers)];
 };
 
