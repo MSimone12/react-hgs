@@ -25,7 +25,7 @@ const HookCounter = () => {
 
 const HookApp = () => {
   return (
-    <Provider reducer={reducer(initialState)} initialState={initialState}>
+    <Provider reducer={reducer(initialState)} initialState={initialState} enableLog>
       <HookCounter />
     </Provider>
   );
