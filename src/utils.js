@@ -12,7 +12,7 @@ export const useMiddleware = (reducer, initialState, persistentReducers) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const persistedState = {}
   persistentReducers.forEach(reducer => {
-    const reducerState = localStorage.getItem(getPersistKey(reducer))
+    const reducerState = JSON.parse(localStorage.getItem(getPersistKey(reducer)))[reducer]
     persistedState[reducer] = reducerState
   })
   const newState = {...persistedState, ...state} 
