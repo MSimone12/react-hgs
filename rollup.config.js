@@ -4,15 +4,8 @@ export default {
   input: "src/index.js",
   output: {
     file: "dist/index.js",
-    esModule: false,
-    exports: 'named',
-    format: "umd",
-    name: 'react-hgs',
-    globals: {
-      react: 'react'
-    }
+    format: "cjs",
   },
-  context: "window",
   external: ["react", "react-dom"],
   plugins: [
     resolve(),

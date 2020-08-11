@@ -57,5 +57,5 @@ export const bindActionCreators = (actionCreators, dispatch) => {
   return boundActionCreators;
 };
 
-const bindActionCreator = (action, dispatch) => () =>
-  dispatch(action.apply(this, arguments));
+const bindActionCreator = (action, dispatch) => (...args) =>
+  dispatch(action.apply(this, args));
