@@ -1,6 +1,6 @@
 {
   "name": "react-hgs",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "Global state redux-like implementation with React Hooks only",
   "main": "dist/index.js",
   "scripts": {
