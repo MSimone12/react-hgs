@@ -8538,10 +8538,10 @@ react-error-overlay@^6.0.7:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.7.tgz#1dcfb459ab671d53f660a991513cb2f0a0553108"
   integrity sha512-TAv1KJFh3RhqxNvhzxj6LeT5NWklP6rDr2a0jaTfsZ5wSZWHOGeqQyejUp3xxLfPt2UpyJEcVQB/zyPcmonNFA==
 
-react-hgs@^1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/react-hgs/-/react-hgs-1.2.4.tgz#ec4685323281cda9752895b751ce370c4e561b2e"
-  integrity sha512-DyH+POV+aS6JpWlua3ao0NC9DNXgt7+wTMVK+wOsCble1wbkKIWrZGQUdgpwGvWQNuRBlo+iqDVMmV1SGp0Kmw==
+react-hgs@^1.2.7:
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/react-hgs/-/react-hgs-1.2.7.tgz#c834cc0e85745d5c581d885af87c06a9ebabf52a"
+  integrity sha512-E9GxL5oVJfJUJITcWBcDujVsy6cN5ND3UHPxK6l/1K6M0l6jHpv5HmwfsWwjVX4LwW6KWf+A5g05i784odW2VA==
   dependencies:
     react "^16.13.1"
     react-dom "^16.13.1"

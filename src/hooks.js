@@ -2,8 +2,8 @@ import React, { useContext, useMemo } from "react";
 import { bindActionCreators, useMiddleware, combineReducers } from "./utils";
 import StateContext from "./context";
 
-export const Provider = ({ initialState = {}, reducer, children, persistentReducers = [], enableLog }) => (
-  <StateContext.Provider value={useMiddleware(reducer, initialState, persistentReducers, enableLog)}>
+export const Provider = ({ initialState = {}, reducer, children, enableLog }) => (
+  <StateContext.Provider value={useMiddleware(reducer, initialState, enableLog)}>
     {children}
   </StateContext.Provider>
 );

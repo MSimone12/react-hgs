@@ -58,7 +58,7 @@ const Counter = () => {
 
 const App = () => {
   return (
-    <Provider reducer={combineReducers({first, second})} enableLog>
+    <Provider reducer={combineReducers({first, second})} enableLog={true}>
       <Counter />
     </Provider>
   )

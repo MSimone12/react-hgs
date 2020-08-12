@@ -1,7 +1,4 @@
 import { useReducer, createRef, useMemo } from "react";
-import chalk from "chalk";
-
-const getPersistKey = (reducer) => `_persist_${reducer}`;
 
 export const getDispatchedActions = (dispatch, props, actions) => {
   if (typeof actions === "function") return actions(dispatch, props);
@@ -11,11 +8,8 @@ export const getDispatchedActions = (dispatch, props, actions) => {
 export const useMiddleware = (
   reducer,
   initialState,
-  persistentReducers,
-  enableLog
+  enableLog = true
 ) => {
-  if (!Array.isArray(persistentReducers))
-  throw Error("persistentReducers must be an Array");
   
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -32,16 +26,9 @@ export const useMiddleware = (
 
   prevState.current = { ...prevState.current, ...state };
 
-  const persistedState = {};
-  persistentReducers.forEach((reducer) => {
-    const reducerState = localStorage.getItem(getPersistKey(reducer));
-    const parsedState = reducerState ? JSON.parse(reducerState)[reducer] : {}
-    persistedState[reducer] = parsedState;
-  });
-  const newState = { ...persistedState, ...state };
   return [
-    newState,
-    middleware(newState, dispatch, persistentReducers, enableLog),
+    state,
+    middleware(state, dispatch),
   ];
 };
 
@@ -59,14 +46,8 @@ const mergeReducers = (reducers, state, action) => {
   return combinedReducers;
 };
 
-const middleware = (state, dispatch, reducersToPersist) => (action) => {
-  reducersToPersist.forEach((reducer) => {
-    localStorage.setItem(
-      getPersistKey(reducer),
-      JSON.stringify({ [reducer]: state[reducer] })
-    );
-  });
-  if (typeof action === "function") {
+const middleware = (state, dispatch) => (action) => {
+    if (typeof action === "function") {
     return action(dispatch, () => state);
   }
   return dispatch(action);
