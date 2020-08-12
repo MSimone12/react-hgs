@@ -22,22 +22,21 @@ export const useMiddleware = (
   const prevState = createRef();
   
   useMemo(() => {
-    if (!enableLog || !prevState.current) return;
-    console.group();
-    console.log(chalk.red("Prev. State"), prevState.current);
-    console.log("%cAction: ", action, "color: blue;");
-    console.log("%cNew State: ", state, "color: green;");
-    console.groupEnd();
+    if (!enableLog || !prevState.current || typeof action !== 'object') return;
+    console.group(action.type);
+    console.log("%cPrev. State", "color: red;", prevState.current);
+    console.log("%cAction: ", "color: blue;", action);
+    console.log("%cNew State: ", "color: green;", state);
+    console.groupEnd(action.type);
   }, [state, enableLog]);
 
   prevState.current = { ...prevState.current, ...state };
 
   const persistedState = {};
   persistentReducers.forEach((reducer) => {
-    const reducerState = JSON.parse(
-      localStorage.getItem(getPersistKey(reducer))
-    )[reducer];
-    persistedState[reducer] = reducerState;
+    const reducerState = localStorage.getItem(getPersistKey(reducer));
+    const parsedState = reducerState ? JSON.parse(reducerState)[reducer] : {}
+    persistedState[reducer] = parsedState;
   });
   const newState = { ...persistedState, ...state };
   return [

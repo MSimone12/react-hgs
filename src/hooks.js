@@ -15,8 +15,13 @@ export const useStore = () => {
   return state;
 };
 
+export const useDispatch = () => {
+  const [_, dispatch] = useGlobalState()
+  return dispatch
+}
+
 export const useActions = (actions, deps) => {
-  const [_, dispatch] = useGlobalState();
+  const dispatch = useDispatch();
   return useMemo(
     () => {
       if (Array.isArray(actions))
