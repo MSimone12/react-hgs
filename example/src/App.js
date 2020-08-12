@@ -1,5 +1,5 @@
 import React from 'react'
-import { Provider, useSelector, useGlobalState, combineReducers } from "react-hgs";
+import { Provider, useSelector, useDispatch, combineReducers } from "react-hgs";
 
 const initialState = {count: 0}
 
@@ -34,7 +34,7 @@ const second = (state = initialState, action) => {
 const Counter = () => {
   const count = useSelector(state => state.first?.count)
   const secondCount = useSelector(state => state.second?.count)
-  const [_, dispatch] = useGlobalState()
+  const dispatch = useDispatch()
 
   return (
     <>
@@ -58,7 +58,7 @@ const Counter = () => {
 
 const App = () => {
   return (
-    <Provider reducer={combineReducers({first, second})} enableLog={true}>
+    <Provider reducer={combineReducers({first, second})}>
       <Counter />
     </Provider>
   )

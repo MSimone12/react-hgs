@@ -1,35 +1,40 @@
-import { useReducer, createRef, useMemo } from "react";
+import { useReducer, useMemo, useCallback, useRef } from "react";
 
 export const getDispatchedActions = (dispatch, props, actions) => {
   if (typeof actions === "function") return actions(dispatch, props);
   return bindActionCreators(actions, dispatch);
 };
 
-export const useMiddleware = (
-  reducer,
-  initialState,
-  enableLog = true
-) => {
-  
+export const useMiddleware = (reducer, initialState, enableLog) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const prevState = createRef();
-  
+  const prevState = useRef();
+
+  const loggerMiddleware = useCallback((action) => {
+    if(typeof action === 'function') return action(dispatch, () => state)
+    prevState.current.actions = prevState.current?.actions || []
+    prevState.current.actions.push({ action })
+    return dispatch(action)
+  }, []);
+
   useMemo(() => {
-    if (!enableLog || !prevState.current || typeof action !== 'object') return;
-    console.group(action.type);
-    console.log("%cPrev. State", "color: red;", prevState.current);
-    console.log("%cAction: ", "color: blue;", action);
-    console.log("%cNew State: ", "color: green;", state);
-    console.groupEnd(action.type);
+    if (!enableLog || !prevState.current) return;
+    prevState.current.actions.forEach(dispatchedAction => {
+      const {state: previousState} = prevState.current
+      const {action} = dispatchedAction
+      console.group(action.type);
+      console.log("%cPrev. State", "color: red;", previousState);
+      console.log("%cAction: ", "color: blue;", action);
+      console.log("%cNew State: ", "color: green;", state);
+      console.groupEnd();
+    })
+
+    prevState.current.actions = []
   }, [state, enableLog]);
 
-  prevState.current = { ...prevState.current, ...state };
+  prevState.current = {...prevState.current, state}
 
-  return [
-    state,
-    middleware(state, dispatch),
-  ];
+  return [state, loggerMiddleware];
 };
 
 export const combineReducers = (reducers) => (state, action) => {
@@ -47,7 +52,7 @@ const mergeReducers = (reducers, state, action) => {
 };
 
 const middleware = (state, dispatch) => (action) => {
-    if (typeof action === "function") {
+  if (typeof action === "function") {
     return action(dispatch, () => state);
   }
   return dispatch(action);
