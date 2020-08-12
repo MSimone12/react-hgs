@@ -1,6 +1,6 @@
 {
   "name": "react-hgs",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Global state redux-like implementation with React Hooks only",
   "main": "dist/index.js",
   "scripts": {
@@ -18,7 +18,6 @@
   "author": "Matheus Simone",
   "license": "ISC",
   "dependencies": {
-    "chalk": "^4.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
